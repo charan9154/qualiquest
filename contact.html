@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | QualiQuest</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --primary: #0a3d62;
+      --secondary: #6fdc8c;
+      --bg-light: #f4f7fb;
+      --text-dark: #0d1b2a;
+      --radius: 14px;
+      --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+    * { box-sizing: border-box; font-family: "Poppins", sans-serif; }
+
+    body {
+      margin: 0;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      box-shadow: 0 2px 12px rgba(255, 107, 53, 0.25);
+      z-index: 1000;
+    }
+    .navbar .logo { font-weight: 700; font-size: 1.3em; letter-spacing: 1.2px; }
+    .navbar nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+    }
+    .navbar nav ul li a:hover::after,
+    .navbar nav ul li a.active::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: white;
+    }
+    .contact-btn {
+      background: white;
+      color: var(--primary);
+      border: none;
+      border-radius: 25px;
+      padding: 10px 22px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .contact-btn:hover { background: var(--primary); color: white; }
+
+    /* ===== HAMBURGER ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 22px;
+      width: 28px;
+      cursor: pointer;
+    }
+    .hamburger span {
+      background: #fff;
+      height: 3px;
+      width: 100%;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .navbar.active nav ul {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      position: absolute;
+      top: 60px;
+      left: 0;
+      text-align: center;
+      padding: 20px 0;
+      z-index: 1500;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(120deg, var(--primary), var(--secondary));
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+    }
+    .hero h1 { font-size: 2.4em; margin-bottom: 10px; }
+    .hero p { max-width: 650px; margin: auto; font-size: 1.1em; }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 40px;
+      padding: 80px 40px;
+      background: white;
+    }
+
+    .contact-info {
+      flex: 1 1 300px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: var(--radius);
+      padding: 40px 30px;
+      box-shadow: var(--shadow);
+    }
+    .contact-info h2 { font-size: 1.8em; margin-bottom: 25px; }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .info-item i {
+      font-size: 1.4em;
+      background: white;
+      color: var(--primary);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+    .info-text p { margin: 0; }
+    .info-text strong { display: block; margin-bottom: 3px; font-weight: 600; }
+
+    /* ===== CONTACT FORM ===== */
+    .contact-form {
+      flex: 1 1 400px;
+      background: var(--bg-light);
+      padding: 40px 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .contact-form h3 {
+      color: var(--primary);
+      text-align: center;
+      font-size: 1.7em;
+      margin-bottom: 25px;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text-dark);
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 10px;
+      font-size: 1em;
+      transition: border 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--secondary);
+      outline: none;
+    }
+    .submit-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-weight: 600;
+      border-radius: 25px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.1em;
+      transition: background 0.3s;
+    }
+    .submit-btn:hover { background: var(--secondary); color: var(--primary); }
+
+    /* ===== FOOTER ===== */
+    .footer-top {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    .footer-bottom {
+      background: #1e1e1e;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 40px 20px;
+      gap: 30px;
+    }
+    .footer-copy {
+      background: #111;
+      color: #aaa;
+      text-align: center;
+      padding: 12px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .navbar nav ul { display: none; }
+      .hamburger { display: flex; }
+      .contact-section { flex-direction: column; padding: 60px 25px; }
+      .contact-info, .contact-form { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="logo">QUALIQUEST</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="client.html">Clients</a></li>
+        <li><a href="candidates.html">Candidates</a></li>
+        <li><a href="#" class="active">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="contact-btn">Contact</button>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <h1>Contact Us</h1>
+    <p>We’d love to hear from you! Whether you’re a client, partner, or candidate — let’s connect and start something amazing.</p>
+  </section>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section class="contact-section">
+    <div class="contact-info">
+      <h2>Get In Touch</h2>
+
+      <div class="info-item">
+        <i class="fas fa-phone-alt"></i>
+        <div class="info-text">
+          <strong>Phone</strong>
+          <p>+91 98765 43210</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <i class="fas fa-envelope"></i>
+        <div class="info-text">
+          <strong>Email</strong>
+          <p>info@qualiquest.com</p>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <div class="info-text">
+          <strong>Location</strong>
+          <p>Hyderabad, Telangana, India</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h3>Send Us a Message</h3>
+      <form>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Enter your name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Enter your email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" placeholder="+91 98765 43210" required />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" rows="4" placeholder="Write your message..." required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-top">
+      <h2>Let’s build your digital future together.</h2>
+      <button class="contact-btn">Get in Touch</button>
+    </div>
+    <div class="footer-bottom">
+      <div><h3>QUALIQUEST</h3><p>Empowering innovation. Elevating businesses.</p></div>
+      <div><h4>Quick Links</h4><ul><li>About Us</li><li>Clients</li><li>Candidates</li><li>Contact</li></ul></div>
+      <div><h4>Contact</h4><p>📞 +91 98765 43210</p><p>📧 info@qualiquest.com</p></div>
+    </div>
+    <p class="footer-copy">© 2025 QualiQuest | All Rights Reserved</p>
+  </footer>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    // Hamburger menu toggle
+    const navbar = document.querySelector('.navbar');
+    const hamburger = document.querySelector('.hamburger');
+    hamburger.addEventListener('click', () => navbar.classList.toggle('active'));
+  </script>
+</body>
+</html>

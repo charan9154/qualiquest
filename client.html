@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clients | Qualiquest</title>
+  <style>
+    :root {
+      --primary: #0a3d62;
+      --secondary: #6fdc8c;
+      --bg-light: #f4f7fb;
+      --text-dark: #0d1b2a;
+    }
+
+    /* ======= BASE ======= */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Poppins", sans-serif; color: var(--text-dark); background: var(--bg-light); }
+
+    /* ======= NAVBAR ======= */
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white; padding: 15px 60px;
+      position: relative; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .logo { font-weight: bold; letter-spacing: 1px; font-size: 1.2em; }
+    .navbar ul {
+      list-style: none; display: flex; gap: 25px; margin: 0; padding: 0;
+    }
+    .navbar ul li a {
+      color: white; text-decoration: none; font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .navbar ul li a:hover, .navbar ul li a.active {
+      color: white; border-bottom: 2px solid white; padding-bottom: 2px;
+    }
+    .contact-btn {
+      background: white; color: var(--primary); border: none; border-radius: 25px;
+      padding: 10px 20px; font-weight: bold; cursor: pointer; transition: 0.2s;
+    }
+    .contact-btn:hover { background: var(--secondary); color: white; }
+
+    /* ======= HAMBURGER ======= */
+    .hamburger {
+      display: none; flex-direction: column; cursor: pointer;
+    }
+    .hamburger span {
+      background: white; height: 3px; width: 25px; margin: 4px 0;
+      transition: 0.3s;
+    }
+
+    /* ======= HERO ======= */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1573497491208-6b1acb260507?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      height: 80vh; display: flex; align-items: center; justify-content: center;
+      position: relative; color: white; text-align: center;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10, 61, 98, 0.65);
+    }
+    .hero-content {
+      z-index: 2; max-width: 700px; padding: 0 20px;
+    }
+    .hero-content h1 { font-size: 3em; margin-bottom: 10px; }
+    .hero-content p { font-size: 1.2em; margin-bottom: 20px; }
+    .cta-btn {
+      background: var(--secondary); color: var(--primary); border: none;
+      border-radius: 25px; padding: 12px 25px; font-weight: 600; cursor: pointer;
+      transition: 0.2s;
+    }
+    .cta-btn:hover { background: var(--primary); color: white; }
+
+    /* ======= INTRO ======= */
+    .intro { padding: 80px 60px; text-align: center; background: white; }
+    .intro h2 { font-size: 1.8em; line-height: 1.5; color: var(--text-dark); }
+    .highlight { color: var(--secondary); text-decoration: underline; }
+    .intro-grid {
+      display: flex; justify-content: center; gap: 40px;
+      margin-top: 40px; text-align: left; flex-wrap: wrap;
+    }
+    .intro-grid p {
+      flex: 1; max-width: 450px; line-height: 1.6; min-width: 280px;
+    }
+
+    /* ======= PROCESS ======= */
+    .process { padding: 80px 60px; text-align: left; }
+    .process .tag {
+      border: 1px solid var(--primary); border-radius: 25px;
+      display: inline-block; padding: 6px 15px; font-size: 0.8em; margin-bottom: 10px;
+      color: var(--primary);
+    }
+    .process h2 { font-size: 2em; margin-bottom: 40px; font-weight: 500; color: var(--primary); }
+    .step {
+      background: #fff; border-radius: 15px; padding: 20px; margin: 20px 0;
+      border: 2px solid transparent; transition: 0.3s; cursor: pointer; position: relative;
+    }
+    .step h3 { color: var(--primary); margin: 0; font-size: 1.1em; }
+    .step p { display: none; margin-top: 10px; color: #333; line-height: 1.6; }
+    .step.active { background: var(--primary); color: white; border-color: var(--secondary); }
+    .step.active h3 { color: white; }
+    .step.active p { display: block; color: white; }
+    .toggle-icon { position: absolute; right: 25px; top: 25px; font-size: 1.5em; color: var(--primary); transition: transform 0.2s ease; }
+    .step.active .toggle-icon { color: var(--secondary); transform: rotate(45deg); }
+
+    /* ======= FOOTER ======= */
+    .footer-top {
+      background: var(--secondary); color: var(--primary); text-align: center; padding: 40px;
+    }
+    .footer-bottom {
+      background: var(--primary); color: white; display: flex; justify-content: space-around;
+      flex-wrap: wrap; padding: 40px;
+    }
+    .footer-links ul { list-style: none; padding: 0; }
+    .footer-links ul li { margin-bottom: 6px; }
+    .footer-copy {
+      background: #0d1b2a; color: #a5b2c3; text-align: center; padding: 15px; font-size: 0.9em;
+    }
+
+
+    /* ===== MODAL ===== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.25);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 18px;
+      padding: 36px;
+      box-shadow: 0 12px 40px rgba(20,28,45,.18);
+      width: 90%;
+      max-width: 420px;
+      position: relative;
+      animation: fadeDown .3s;
+    }
+    @keyframes fadeDown {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: none; opacity: 1; }
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 2em;
+      color: var(--primary);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--secondary); }
+    form label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #eee;
+      border-radius: 8px;
+      font-size: 1em;
+      margin-bottom: 8px;
+      transition: border .2s;
+    }
+    form input:focus, form textarea:focus { border-color: var(--secondary); }
+    .modal-submit {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .modal-submit:hover { background: var(--secondary); color: var(--primary); }
+    .char-count { font-size: 0.9em; text-align: right; color: #888; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+      .navbar { padding: 15px 30px; }
+      .intro, .expect { padding: 60px 30px; }
+    }
+    @media (max-width: 768px) {
+      .navbar ul {
+        display: none;
+        flex-direction: column;
+        background: var(--primary);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        padding: 20px 0;
+        text-align: center;
+        border-top: 1px solid rgba(255,255,255,0.2);
+      }
+      .navbar.active ul { display: flex; }
+      .hamburger { display: flex; }
+      .hero { height: 60vh; }
+      .hero-content h1 { font-size: 2em; }
+      .hero-content p { font-size: 1em; }
+      .intro-left, .intro-right { font-size: 1em; }
+      .footer-bottom { flex-direction: column; text-align: center; gap: 20px; }
+    }
+    @media (max-width: 480px) {
+      .navbar { padding: 10px 20px; }
+      .cta-btn, .contact-btn { padding: 10px 18px; font-size: 0.9em; }
+      .intro, .expect { padding: 40px 20px; }
+      .expect-item { text-align: center; }
+      .modal-content { width: 95vw; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">QUALIQUEST</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="#" class="active">Clients</a></li>
+        <li><a href="candidates.html">Candidates</a></li>
+      </ul>
+    </nav>
+    <button class="contact-btn">Contact</button>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Growth without Restrictions</h1>
+      <p>Discover Qualiquest’s Tailored Recruitment Process.</p>
+      <button class="cta-btn" id="talkBtn">Let's Talk</button>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <h2>When it comes to innovation, finding <span class="highlight">the right technology partner</span> makes all the difference.</h2>
+    <div class="intro-grid">
+      <p>At QualiQuest, collaboration fuels everything we do. We partner with businesses to co-create solutions that merge technology, intelligence, and creativity — ensuring long-term success in an AI-driven world.</p>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process">
+    <div class="tag">PROCESS</div>
+    <h2>Here is what the journey looks like;</h2>
+    <div class="step"><h3>01 - Our Approach</h3><p>We understand your business, culture, and hiring needs to define roles and skills precisely.</p><span class="toggle-icon">+</span></div>
+    <div class="step"><h3>02 - Discovery & Consultation</h3><p>We understand your business goals and craft a tailored strategy combining IT expertise and marketing intelligence.</p><span class="toggle-icon">+</span></div>
+    <div class="step"><h3>03 - Development & Implementation</h3><p>Our engineers build robust SaaS and full-stack solutions optimized for performance and scalability.</p><span class="toggle-icon">+</span></div>
+    <div class="step"><h3>04 - AI Integration & Automation</h3><p>We embed AI and data analytics into your systems for smarter decision-making and automation.</p><span class="toggle-icon">+</span></div>
+    <div class="step"><h3>05 - Marketing Enablement</h3><p>We boost your digital presence with precision-targeted campaigns, SEO, and performance analytics.</p><span class="toggle-icon">+</span></div>
+    <div class="step"><h3>06 - Testing & Optimization</h3><p>Every solution undergoes rigorous testing to ensure reliability, security, and user satisfaction.</p><span class="toggle-icon">+</span></div>
+    <div class="step"><h3>07 - Support & Continuous Growth</h3><p>Post-delivery, we stay with you — maintaining systems, scaling solutions, and driving measurable growth.</p><span class="toggle-icon">+</span></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <h2>At Qualiquest, we’re committed to delivering outstanding recruitment services tailored to your needs.</h2>
+      <button class="contact-btn">Contact Us</button>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-info">
+        <h3>QUALIQUEST</h3>
+        <p>Your partner for Martech recruitment.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li>About Us</li>
+          <li>Clients</li>
+          <li>Candidates</li>
+          <li>Latest Jobs</li>
+          <li>Contact Us</li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p>📞 +1(469) XXX-XXXX)</p>
+        <p>📧 info@qualiquest.com</p>
+      </div>
+    </div>
+    <p class="footer-copy">© 2025 Qualiquest | All Rights Reserved</p>
+  </footer>
+
+  <!-- MODAL -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <h2>Contact Us</h2>
+      <form>
+        <div class="form-row">
+          <label>Name <span>*</span></label>
+          <div class="input-group">
+            <input type="text" placeholder="First" required />
+            <input type="text" placeholder="Last" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Email <span>*</span></label>
+          <div class="input-group">
+            <input type="email" placeholder="Enter Email" required />
+            <input type="email" placeholder="Confirm Email" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Comments <span>*</span></label>
+          <textarea id="comments" rows="4" maxlength="600" placeholder="Please let us know what's on your mind." required></textarea>
+          <div class="char-count"><span id="charCount">0</span> of 600 max characters</div>
+        </div>
+        <div class="form-row">
+          <label for="cv">CV</label>
+          <input type="file" id="cv" accept=".pdf,.doc,.docx,.odt,.rtf" />
+          <small>Accepted: pdf, doc, docx, odt, rtf. Max size: 100 MB.</small>
+        </div>
+        <button class="modal-submit" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+ <!-- JS -->
+  <script>
+    // Modal only for Let's Talk
+    document.getElementById('talkBtn').addEventListener('click', () => {
+      document.getElementById('contactModal').style.display = 'flex';
+    });
+
+    function closeModal() {
+      document.getElementById('contactModal').style.display = 'none';
+    }
+
+    // Char counter
+    const comments = document.getElementById('comments');
+    const charCount = document.getElementById('charCount');
+    if (comments) {
+      comments.addEventListener('input', () => charCount.textContent = comments.value.length);
+    }
+
+    // Mobile menu toggle
+    const navbar = document.querySelector('.navbar');
+    const hamburger = document.querySelector('.hamburger');
+    hamburger.addEventListener('click', () => navbar.classList.toggle('active'));
+  </script>
+</body>
+</html>
